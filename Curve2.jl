@@ -49,10 +49,7 @@ y1n = float((x1d/m1d).(t_vals))
 normal = hcat(x1n,y1n)
 
 #arclength
-
 arc=float((integrate(m1d,(t,0,t))).(t_vals))
-
-
 
 # Draw the curve
 draw_curve_helper(pos, curvature, arc, tangent./4, normal)
