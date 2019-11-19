@@ -25,31 +25,32 @@ pos = hcat(x, y)
 
 
 # Compute curvature, arclength, tangents and normals at each t-value here.
-x1d = 3*((t+1).^2)
-y1d = 3*((t-1).^2)
-x1d2 = (t+1)*6
-y1d2 = (t-1)*6
+x1d = diff(x2,t)
+y1d = diff(y2,t)
+x1d2 =diff(x1d,t)
+y1d2 = diff(y1d,t)
+m1d = norm(hcat(x1d,y1d))
+m2d = norm(hcat(x1d2,y1d2))
+
 
 #tangent
 
-m = (((x1d)^2)+((y1d)^2))^0.5
-x1t = float((x1d/m).(t_vals))
-y1t = float((y1d/m).(t_vals))
+x1t = float((x1d/m1d).(t_vals))
+y1t = float((y1d/m1d).(t_vals))
 tangent = hcat(x1t,y1t)
 
 #Curvature
-m = (((x1d2)^2)+((y1d2)^2))^0.5
-curvature = float(m.(t_vals))
+ex = ((x1d*y1d2)-(y1d*x1d2))/(m1d^3)
+curvature = float(ex.(t_vals))
 
 #Normal
-x1n = float((x1d2/m).(t_vals))
-y1n = float((y1d2/m).(t_vals))
+x1n = float(-(y1d/m1d).(t_vals))
+y1n = float((x1d/m1d).(t_vals))
 normal = hcat(x1n,y1n)
 
 #arclength
-xarc = float((3*t.*(t+2)).(t_vals))
-yarc = float((3*t.*(t-2)).(t_vals))
-arc = hcat(xarc,yarc)
+
+arc=float((integrate(m1d,(t,0,t))).(t_vals))
 
 
 
